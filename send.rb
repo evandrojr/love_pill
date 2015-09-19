@@ -3,8 +3,8 @@
 require 'sqlite3'
 require 'gmail'
 
-username="#######@gmail.com"
-password="######"
+username=ENV['gmailuser']
+password=ENV['gmailpass']
 
 `rm love_pill.sqlite*`
 `wget http://evandro.org/pilula/love_pill.sqlite3`
@@ -33,24 +33,22 @@ pills=['Elogiar mais',
       'Cinema abraçados']
 
 prng = Random.new
-
+last_email = nil
 begin
-    db = SQLite3::Database.new "love_pill.sqlite3"
-#    db = SQLite3::Database.new "love_pill.test.sqlite3"
-    puts db.get_first_value 'SELECT SQLITE_VERSION()'
-    stm = db.prepare "SELECT email from user"
-    rs = stm.execute
+  #db = SQLite3::Database.new "love_pill.test.sqlite3"
+  db = SQLite3::Database.new "love_pill.sqlite3"
+  puts db.get_first_value 'SELECT SQLITE_VERSION()'
+  stm = db.prepare "SELECT email from user"
+  rs = stm.execute
+  Gmail.new(username, password) do |gmail|
     rs.each do |row|
-
-      begin
-        Gmail.new(username, password) do |gmail|
-          # ...do things...
-            email = gmail.generate_message do
-            from "evandrojr@gmail.com"
-            to row[0]
-            subject "Pílula do amor de Dengo e Modesta"
-            body "Olá!
-            
+      last_email = row[0]
+      email = gmail.generate_message do
+        from "evandrojr@gmail.com"
+        to row[0]
+        subject "Pílula do amor de Dengo e Modesta"
+        body "Olá!
+      
 Aqui vai a sugestão de Dengo (Evandro) e Modesta (Paulinha) para dar uma aquecida na sua relação. Experimente fazer isto durante essa semana.
 
 Sua pílula do amor é:
@@ -61,24 +59,21 @@ Semana que vem tem mais!
 
 Um abraço!
 Evandro e Paulinha
+
+Se quiser que seus amigos ou familiares também recebam a pílula do amor, acesse:
+http://evandro.org/pilula
 "
- 
-        end
-            email.deliver!
-        end
-      rescue Exception => e
-        puts "Erro ao enviar email para #{row[0]}"
-        puts e
-      end
-    end
-rescue SQLite3::Exception => e
-
-    puts "Exception occurred"
+      end # email = gmail.generate_message do
+      email.deliver!
+    end # End rs.each do |row|
+  end # Gmail.new(username, password) do |gmail| 
+  rescue SQLite3::Exception => e
+    puts "SQLite3 Exception occurred"
     puts e
-
-ensure
+  rescue Exception => e
+    puts "Erro ao enviar email para #{last_email}"
+    puts e
+  ensure
     stm.close if stm
     db.close if db
 end
-
-exit
