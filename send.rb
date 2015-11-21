@@ -18,19 +18,22 @@ password=ENV['gmailpass']
 
 
 
-pills=['Elogiar mais',
-      'Jantar fora',
-      'Café na cama',
-      'Perdoar mais',
-      'Beijar mais',
-      'Dar comida na boca ou fazer o prato enfeitado',      
-      'Banho juntos',
-      'Fazer massagem',
-      'Amor carinhoso',
-      'Declaração de amor olhando nos olhos',      
-      'Dançar agarradinho', 
-      'Cantar juntos',                 
-      'Cinema abraçados']
+pills=['Elogiar com sinceridade e carinho',
+      'Jantar fora fazendo um clima romântico',
+      'Café na cama caprichado',
+      'Perdoar mais e não ficar relembrando os erros do outro',
+      'Beijar como nos primórdios do namoro, se depois embalar melhor ainda!',
+      'Lavar pratos, varrer, lavar banheiros (ou outro serviço doméstico) junto com seu amor. Se colocar uma música para graxerarem juntos melhor ainda!',
+      'Fazer regime juntos, mas também não deve afundar o pé na jaca quando estiver sozinho, kkk',
+      'Praticar esportes juntos de preferencia ao ar livre, mas de todo tipo está valendo!',
+      'Dar comida na boca ou fazer o prato enfeitado',
+      'Banho juntos lavando a cabeça do amor, o pezinho do amor, o umbiguinho do amor, etc...',
+      'Fazer massagem nas costas, nos pés e onde mais o outro gostar',
+      'Amor carinhoso com bastante preliminares',
+      'Declaração de amor verdadeira e olhando nos olhos',
+      'Dançar agarradinho de preferencia músicas românticas',
+      'Cantar juntos de preferencia músicas românticas',
+      'Cinema abraçados vendo um drama romântico ou comédia romântica']
 
 prng = Random.new
 last_email = nil
@@ -46,27 +49,45 @@ begin
       email = gmail.generate_message do
         from "evandrojr@gmail.com"
         to row[0]
-        subject "Pílula do amor de Dengo e Modesta"
+        subject "Pílula do amor de Dengo e Modesta (com 3 novas pílulas diet e as antigas foram turbinadas!)"
         body "Olá!
-      
-Aqui vai a sugestão de Dengo (Evandro) e Modesta (Paulinha) para dar uma aquecida na sua relação. Experimente fazer isto durante essa semana.
+
+Aqui vai a sugestão de Dengo (Evandro) e Modesta (Paulinha) para dar uma aquecida na sua relação. Experimente fazer isto durante esta semana.
 
 Sua pílula do amor é:
 
+--------------------------------------------------------------------------------
+
 #{pills[prng.rand(0...pills.size)]}
+
+--------------------------------------------------------------------------------
 
 Semana que vem tem mais!
 
-Um abraço!
-Evandro e Paulinha
+P.S. Essa semana adicionamos 3 novas pílulas para o nosso cardápio semanal, essas são pílulas diet para fazer bem para ambos o seu corpo e coração:
 
-Se quiser que seus amigos ou familiares também recebam a pílula do amor, acesse:
+1. Lavar pratos, varrer, lavar banheiros (ou outro serviço doméstico) junto com seu amor. Se colocar uma música para graxerarem juntos melhor ainda!
+
+2. Fazer regime juntos, mas também não deve afundar o pé na jaca quando estiver sozinho, kkk,
+
+3. Praticar esportes juntos de preferencia ao ar livre, mas de todo tipo está valendo!'
+
+Todas essas sugestões vieram do meu grande amigo de infância, Douglas Barbosa. Se você não recebeu uma dessas hoje pense na possibilidade usar uma delas (ou mais) mesmo assim.
+
+Obrigado Douglas pela contribuição! Estamos sempre abertos a novas sugestões de vocês.
+--------------------------------------------------------------------------------------
+
+
+Seu parceiro ainda não está recebendo as pílulas por email? Sinto muito, você está deixando de receber vários benefícios para você e para sua relação.
+
+Se quiser que seu parceiro, amigos ou familiares também recebam a pílula do amor, acesse:
 http://evandro.org/pilula
+para adicioná-lo(s).
 "
       end # email = gmail.generate_message do
       email.deliver!
     end # End rs.each do |row|
-  end # Gmail.new(username, password) do |gmail| 
+  end # Gmail.new(username, password) do |gmail|
   rescue SQLite3::Exception => e
     puts "SQLite3 Exception occurred"
     puts e
