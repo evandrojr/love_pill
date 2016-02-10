@@ -1,0 +1,23 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
+    mime (0.4.3)
+    mime-types (2.99)
+    ruby-gmail (0.3.1)
+      mail (>= 2.2.1)
+      mime (>= 0.1)
+      shared-mime-info
+    shared-mime-info (0.2.5)
+    sqlite3 (1.3.11)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  ruby-gmail
+  sqlite3
+
+BUNDLED WITH
+   1.11.2
